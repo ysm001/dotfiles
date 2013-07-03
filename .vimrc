@@ -87,7 +87,7 @@ imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>
 smap <C-k> <Plug>(neocomplcache_snippets_expand)
 
 set rtp+=~/.vim/vundle/  
-call vundle#rc()  
+"call vundle#rc()  
 
 
 "Bundle 'Shougo/neocomplcache.git'  
