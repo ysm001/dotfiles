@@ -45,6 +45,7 @@ NeoBundle 'claco/jasmine.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'synboo/project.vim'
 
 filetype plugin indent on     " required!
 filetype indent on
@@ -409,7 +410,7 @@ nmap <silent><Leader>ig <Plug>IndentGuidesToggle
 
 syntax enable
 set background=dark
-colorscheme solarized
+colorscheme evening 
 
 "inoremap { {}<LEFT>
 "inoremap [ []<LEFT>
