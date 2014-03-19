@@ -13,6 +13,8 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
   call neobundle#rc(expand('~/.vim/bundle/'))
 endif
+
+let g:neobundle#types#git#default_protocol = 'ssh'
 " originalrepos on github
 NeoBundle 'Shougo/neobundle.vim'
 "NeoBundle 'Shougo/vimproc'
@@ -46,12 +48,18 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 
 NeoBundle 'altercation/vim-colors-solarized'
 
+NeoBundle 'naberon/vim-cakehtml'
+" ruby debugger
+NeoBundle 'astashov/vim-ruby-debugger'
+" slim
+NeoBundle 'slim-template/vim-slim.git'
+
 filetype plugin indent on     " required!
 filetype indent on
 syntax on
 
 let g:SrcExpl_UpdateTags = 1
-let Tlist_Ctags_Cmd = "/opt/local/bin/ctags"
+let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
 
 let g:tlist_actionscript_settings = 'actionscript;c:class;v:var;p:property;m:method;f:function;o:object;const:constants'
 
@@ -65,6 +73,8 @@ let g:neocomplcache_enable_camel_case_completion = 1
 let g:neocomplcache_enable_underbar_completion = 1
 "シンタックスをキャッシュするときの最小文字長を設定する
 let g:neocomplcache_min_syntax_length = 2
+
+au BufNewFile,BufRead *.ejs set filetype=html
 
 autocmd BufNewFile,BufRead *.scala set filetype=scala
 "ユーザ定義の辞書を指定
@@ -421,3 +431,7 @@ colorscheme solarized
 "vnoremap ( "zdi(<C-R>z)<ESC>
 "vnoremap " "zdi"<C-R>z"<ESC>
 "vnoremap ' "zdi'<C-R>z'<ESC>
+
+let g:SrcExpl_UpdateTags = 1
+
+let g:neocomplcache_force_overwrite_completefunc = 1
