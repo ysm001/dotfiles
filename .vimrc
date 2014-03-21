@@ -23,6 +23,7 @@ NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'terryma/vim-multiple-cursors'
@@ -93,9 +94,9 @@ let Tlist_Use_Right_Window = 1
 let g:NeoComplCache_SnippetsDir = '~/.vim/snippets'
  
 " TABでスニペットを展開
-imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_jump_or_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
-smap <C-k> <Plug>(neocomplcache_snippets_expand)
+smap <C-k> <Plug>(neosnippet_jump_or_expand)
 
 set rtp+=~/.vim/vundle/  
 "call vundle#rc()  
