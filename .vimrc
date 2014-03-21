@@ -420,7 +420,8 @@ nmap <silent><Leader>ig <Plug>IndentGuidesToggle
 
 syntax enable
 set background=dark
-colorscheme evening 
+" colorscheme evening 
+colorscheme solarized
 
 "inoremap { {}<LEFT>
 "inoremap [ []<LEFT>
