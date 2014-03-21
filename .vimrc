@@ -47,6 +47,7 @@ NeoBundle 'claco/jasmine.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'synboo/project.vim'
 
 NeoBundle 'naberon/vim-cakehtml'
 " ruby debugger
@@ -97,7 +98,7 @@ imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>
 smap <C-k> <Plug>(neocomplcache_snippets_expand)
 
 set rtp+=~/.vim/vundle/  
-call vundle#rc()  
+"call vundle#rc()  
 
 
 "Bundle 'Shougo/neocomplcache.git'  
@@ -419,7 +420,7 @@ nmap <silent><Leader>ig <Plug>IndentGuidesToggle
 
 syntax enable
 set background=dark
-colorscheme solarized
+colorscheme evening 
 
 "inoremap { {}<LEFT>
 "inoremap [ []<LEFT>
