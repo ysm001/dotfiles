@@ -55,6 +55,8 @@ NeoBundle 'astashov/vim-ruby-debugger'
 " slim
 NeoBundle 'slim-template/vim-slim.git'
 
+NeoBundle 'scrooloose/nerdtree'
+
 filetype plugin indent on     " required!
 filetype indent on
 syntax on
@@ -76,6 +78,7 @@ let g:neocomplcache_enable_underbar_completion = 1
 let g:neocomplcache_min_syntax_length = 2
 
 au BufNewFile,BufRead *.ejs set filetype=html
+au BufNewFile,BufRead *.ry set filetype=racc
 
 autocmd BufNewFile,BufRead *.scala set filetype=scala
 "ユーザ定義の辞書を指定
@@ -84,8 +87,8 @@ let g:neocomplcache_dictionary_filetype_lists = {
   \ 'scala' : $HOME . '/.vim/dict/scala.dict',
   \ }
 
-set tags += "~/Programming/.ctags/scala_tags"
-autocmd FileType scala :set tags+=~/.vim/tags/scala.tags
+"set tags += "~/Programming/.ctags/scala_tags"
+"autocmd FileType scala :set tags+=~/.vim/tags/scala.tags
 
 let Tlist_Use_Right_Window = 1   
 
@@ -360,7 +363,7 @@ set infercase
 " neocomplcache
 let g:neocomplcache_enable_at_startup = 1
  
-:set shiftwidth=4
+:set shiftwidth=2
 
 
 au BufRead,BufNewFile *.coffee            set filetype=coffee
@@ -385,7 +388,8 @@ autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
 " vim-coffee-script
 "------------------------------------
 " 保存時にコンパイル
-autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
+" autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
+autocmd BufWritePost *.coffee silent make!
 
 "------------------------------------
 " jasmine.vim
@@ -437,3 +441,12 @@ colorscheme solarized
 let g:SrcExpl_UpdateTags = 1
 
 let g:neocomplcache_force_overwrite_completefunc = 1
+
+nnoremap <silent> co :ContinuousNumber <C-a><CR>
+vnoremap <silent> co :ContinuousNumber <C-a><CR>
+command! -count -nargs=1 ContinuousNumber let snf=&nf|set nf-=octal|let cl = col('.')|for nc in range(1, <count>?<count>-line('.'):1)|exe 'normal! j' . nc . <q-args>|call cursor('.', cl)|endfor|unlet cl|unlet snf
+
+:set tabstop=4
+:set autoindent
+:set expandtab
+:set shiftwidth=2
