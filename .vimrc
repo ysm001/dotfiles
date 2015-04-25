@@ -11,7 +11,10 @@ filetype off
 
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#rc(expand('~/.vim/bundle/'))
+  " call neobundle#rc(expand('~/.vim/bundle/'))
+  call neobundle#begin(expand('~/.vim/bundle/'))
+  NeoBundleFetch 'Shougo/neobundle.vim'
+  call neobundle#end()
 endif
 
 let g:neobundle#types#git#default_protocol = 'ssh'
@@ -29,7 +32,10 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'terryma/vim-multiple-cursors'
 ""NeoBundle 'https://bitbucket.org/kovisoft/slimv'
 
-NeoBundle 'mattn/zencoding-vim'
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'kannokanno/previm'
+
+NeoBundle 'mattn/emmet-vim'
 NeoBundle 'taichouchou2/surround.vim'
 NeoBundle 'open-browser.vim'
 NeoBundle 'mattn/webapi-vim'
@@ -48,7 +54,7 @@ NeoBundle 'claco/jasmine.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'synboo/project.vim'
+" NeoBundle 'synboo/project.vim'
 
 NeoBundle 'naberon/vim-cakehtml'
 " ruby debugger
@@ -451,3 +457,10 @@ command! -count -nargs=1 ContinuousNumber let snf=&nf|set nf-=octal|let cl = col
 :set autoindent
 :set expandtab
 :set shiftwidth=2
+
+let g:vim_markdown_initial_foldlevel=1
+
+augroup PrevimSettings
+  autocmd!
+  autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+augroup END
