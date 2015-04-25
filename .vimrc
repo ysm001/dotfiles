@@ -45,7 +45,7 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'tell-k/vim-browsereload-mac'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'taichouchou2/html5.vim'
-NeoBundle 'taichouchou2/vim-javascript' " jQuery syntax追加
+"NeoBundle 'taichouchou2/vim-javascript' " jQuery syntax追加
 "NeoBundle 'tpope/vim-endwise.git' 
 "NeoBundle 'ruby-matchit'
 NeoBundle 'vim-scripts/dbext.vim'
@@ -161,6 +161,9 @@ let g:Tex_ViewRule_pdf = '/usr/bin/open -a Preview.app'
 "let g:Tex_ViewRule_pdf = '/usr/bin/open -a TeXworks.app'
 "let g:Tex_ViewRule_pdf = '/usr/bin/open -a "Adobe Reader.app"'
 
+
+" Ruby static code analyzer.
+" let g:syntastic_ruby_checkers = ['rubocop']
 
 "----------------------------------------
 " zencoding
@@ -328,27 +331,27 @@ NeoBundleLazy 'ujihisa/unite-rake', {
       \ 'depends' : 'Shougo/unite.vim' }
 NeoBundleLazy 'basyura/unite-rails', {
       \ 'depends' : 'Shjkougo/unite.vim' }
-NeoBundleLazy 'taichouchou2/unite-rails_best_practices', {
-      \ 'depends' : 'Shougo/unite.vim',
-      \ 'build' : {
-      \    'mac': 'gem install rails_best_practices',
-      \    'unix': 'gem install rails_best_practices',
-      \   }
-      \ }
-NeoBundleLazy 'taichouchou2/unite-reek', {
-      \ 'build' : {
-      \    'mac': 'gem install reek',
-      \    'unix': 'gem install reek',
-      \ },
-      \ 'autoload': { 'filetypes': ['ruby', 'eruby', 'haml'] },
-      \ 'depends' : 'Shougo/unite.vim' }
-NeoBundleLazy 'taichouchou2/alpaca_complete', {
-      \ 'depends' : 'tpope/vim-rails',
-      \ 'build' : {
-      \    'mac':  'gem install alpaca_complete',
-      \    'unix': 'gem install alpaca_complete',
-      \   }
-      \ }
+" NeoBundleLazy 'taichouchou2/unite-rails_best_practices', {
+"       \ 'depends' : 'Shougo/unite.vim',
+"       \ 'build' : {
+"       \    'mac': 'gem install rails_best_practices',
+"       \    'unix': 'gem install rails_best_practices',
+"       \   }
+"       \ }
+" NeoBundleLazy 'taichouchou2/unite-reek', {
+"       \ 'build' : {
+"       \    'mac': 'gem install reek',
+"       \    'unix': 'gem install reek',
+"       \ },
+"       \ 'autoload': { 'filetypes': ['ruby', 'eruby', 'haml'] },
+"       \ 'depends' : 'Shougo/unite.vim' }
+" NeoBundleLazy 'taichouchou2/alpaca_complete', {
+"       \ 'depends' : 'tpope/vim-rails',
+"       \ 'build' : {
+"       \    'mac':  'gem install alpaca_complete',
+"       \    'unix': 'gem install alpaca_complete',
+"       \   }
+"       \ }
 
 
 " .や::を入力したときにオムニ補完が有効になるようにする
@@ -393,7 +396,7 @@ NeoBundleLazy 'ruby-matchit', {
 let g:endwise_no_mappings=1
 "}}}
 
-NeoBundle 'taichouchou2/vim-rsense'
+" NeoBundle 'taichouchou2/vim-rsense'
 
 "------------------------------------
 " neocomplcache
