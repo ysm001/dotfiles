@@ -27,6 +27,9 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'marcus/rsense'
+NeoBundle 'supermomonga/neocomplete-rsense.vim'
 NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'terryma/vim-multiple-cursors'
@@ -36,7 +39,7 @@ NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm'
 
 NeoBundle 'mattn/emmet-vim'
-NeoBundle 'taichouchou2/surround.vim'
+" NeoBundle 'taichouchou2/surround.vim'
 NeoBundle 'open-browser.vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'tell-k/vim-browsereload-mac'
@@ -273,14 +276,36 @@ NeoBundleLazy 'Shougo/neosnippet', {
       \   'insert' : 1,
       \ }}
 
-NeoBundle 'Shougo/neocomplcache-rsense', {
-      \ 'depends': 'Shougo/neocomplcache',
-      \ 'autoload': { 'filetypes': 'ruby' }}
-NeoBundleLazy 'taichouchou2/rsense-0.3', {
-      \ 'build' : {
-      \    'mac': 'ruby etc/config.rb > ~/.rsense',
-      \    'unix': 'ruby etc/config.rb > ~/.rsense',
-      \ } }
+
+" -------------------------------
+" Rsense
+" -------------------------------
+let g:rsenseHome = '/usr/local/bin/rsense'
+let g:rsenseUseOmniFunc = 1
+
+" --------------------------------
+" neocomplete.vim
+" --------------------------------
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
+
+
+NeoBundle 'Shougo/vimproc', {
+  \ 'build' : {
+  \     'mac' : 'make -f make_mac.mak',
+  \     'unix' : 'make -f make_unix.mak',
+  \    },
+  \ }
+NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
+  \ 'insert' : 1,
+  \ 'filetypes': 'ruby',
+  \ }}
+
 " }}}
 
 " 便利 {{{
@@ -324,6 +349,16 @@ NeoBundleLazy 'taichouchou2/alpaca_complete', {
       \    'unix': 'gem install alpaca_complete',
       \   }
       \ }
+
+
+" .や::を入力したときにオムニ補完が有効になるようにする
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+
+" 環境変数RSENSE_HOMEに'/usr/local/bin/rsense'を指定しても動く
+let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
 
 let s:bundle_rails = 'unite-rails unite-rails_best_practices unite-rake alpaca_complete'
 
