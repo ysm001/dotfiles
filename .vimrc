@@ -38,6 +38,9 @@ NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm'
 
+NeoBundle "pangloss/vim-javascript"
+NeoBundle "mxw/vim-jsx"
+
 NeoBundle 'mattn/emmet-vim'
 " NeoBundle 'taichouchou2/surround.vim'
 NeoBundle 'open-browser.vim'
