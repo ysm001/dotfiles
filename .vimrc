@@ -1,74 +1,84 @@
 if has('gui_macvim')
-    set transparency=3
-    set guifont=Menlo:h12
-    set lines=90 columns=200
-    set guioptions-=T
+  set transparency=3
+  set guifont=Menlo:h12
+  set lines=90 columns=200
+  set guioptions-=T
 endif
 
 set nocompatible               " be iMproved
 filetype off
 
 
+let g:neobundle#types#git#default_protocol = 'ssh'
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
   " call neobundle#rc(expand('~/.vim/bundle/'))
   call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleFetch 'Shougo/neobundle.vim'
+
+  " originalrepos on github
+  NeoBundle 'Shougo/neobundle.vim'
+
+  NeoBundle 'Shougo/unite.vim'
+
+  NeoBundle 'Shougo/neocomplcache'
+  NeoBundle 'Shougo/neosnippet-snippets'
+  NeoBundle 'Shougo/neocomplete.vim'
+
+  NeoBundle 'marcus/rsense'
+  NeoBundle 'supermomonga/neocomplete-rsense.vim'
+
+  NeoBundle 'scrooloose/syntastic'
+  NeoBundle 'terryma/vim-multiple-cursors'
+
+  NeoBundle 'plasticboy/vim-markdown'
+  NeoBundle 'kannokanno/previm'
+
+  NeoBundle 'pangloss/vim-javascript'
+  NeoBundle 'mxw/vim-jsx'
+
+  NeoBundle 'mattn/emmet-vim'
+  " NeoBundle 'taichouchou2/surround.vim'
+  NeoBundle 'tpope/vim-surround'
+
+  NeoBundle 'open-browser.vim'
+  NeoBundle 'mattn/webapi-vim'
+  NeoBundle 'tell-k/vim-browsereload-mac'
+  NeoBundle 'hail2u/vim-css3-syntax'
+
+  NeoBundle 'ruby-matchit'
+  NeoBundle 'vim-scripts/dbext.vim'
+  " syntax + 自動compile
+  NeoBundle 'kchmck/vim-coffee-script'
+  " js BDDツール
+  NeoBundle 'claco/jasmine.vim'
+  " indentの深さに色を付ける
+  NeoBundle 'nathanaelkane/vim-indent-guides'
+
+  NeoBundle 'altercation/vim-colors-solarized'
+  " NeoBundle 'synboo/project.vim'
+
+  NeoBundle 'naberon/vim-cakehtml'
+  " ruby debugger
+  NeoBundle 'astashov/vim-ruby-debugger'
+  " slim
+  NeoBundle 'slim-template/vim-slim.git'
+
+  NeoBundle 'scrooloose/nerdtree'
+
+  NeoBundle 'alpaca-tc/alpaca_tags'
+  NeoBundle 'ngmy/vim-rubocop'
+  NeoBundle 'tpope/vim-endwise'
+
+  NeoBundle 'tpope/vim-rails'
+  NeoBundle 'tomtom/tcomment_vim'
+
+  NeoBundle 'Shougo/vimproc'  
+
+  NeoBundle 'thinca/vim-ref'
+
   call neobundle#end()
 endif
-
-let g:neobundle#types#git#default_protocol = 'ssh'
-" originalrepos on github
-NeoBundle 'Shougo/neobundle.vim'
-"NeoBundle 'Shougo/vimproc'
-NeoBundle 'VimClojure'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neocomplcache'
-"NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'marcus/rsense'
-NeoBundle 'supermomonga/neocomplete-rsense.vim'
-NeoBundle 'jpalardy/vim-slime'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'terryma/vim-multiple-cursors'
-""NeoBundle 'https://bitbucket.org/kovisoft/slimv'
-
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'kannokanno/previm'
-
-NeoBundle "pangloss/vim-javascript"
-NeoBundle "mxw/vim-jsx"
-
-NeoBundle 'mattn/emmet-vim'
-" NeoBundle 'taichouchou2/surround.vim'
-NeoBundle 'open-browser.vim'
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'tell-k/vim-browsereload-mac'
-NeoBundle 'hail2u/vim-css3-syntax'
-"NeoBundle 'taichouchou2/html5.vim'
-"NeoBundle 'taichouchou2/vim-javascript' " jQuery syntax追加
-"NeoBundle 'tpope/vim-endwise.git' 
-"NeoBundle 'ruby-matchit'
-NeoBundle 'vim-scripts/dbext.vim'
-" syntax + 自動compile
-NeoBundle 'kchmck/vim-coffee-script'
-" js BDDツール
-NeoBundle 'claco/jasmine.vim'
-" indentの深さに色を付ける
-NeoBundle 'nathanaelkane/vim-indent-guides'
-
-NeoBundle 'altercation/vim-colors-solarized'
-" NeoBundle 'synboo/project.vim'
-
-NeoBundle 'naberon/vim-cakehtml'
-" ruby debugger
-NeoBundle 'astashov/vim-ruby-debugger'
-" slim
-NeoBundle 'slim-template/vim-slim.git'
-
-NeoBundle 'scrooloose/nerdtree'
 
 filetype plugin indent on     " required!
 filetype indent on
@@ -96,9 +106,9 @@ au BufNewFile,BufRead *.ry set filetype=racc
 autocmd BufNewFile,BufRead *.scala set filetype=scala
 "ユーザ定義の辞書を指定
 let g:neocomplcache_dictionary_filetype_lists = {
-  \ 'default' : '',
-  \ 'scala' : $HOME . '/.vim/dict/scala.dict',
-  \ }
+      \ 'default' : '',
+      \ 'scala' : $HOME . '/.vim/dict/scala.dict',
+      \ }
 
 "set tags += "~/Programming/.ctags/scala_tags"
 "autocmd FileType scala :set tags+=~/.vim/tags/scala.tags
@@ -107,7 +117,7 @@ let Tlist_Use_Right_Window = 1
 
 " スニペットファイルの配置場所
 let g:NeoComplCache_SnippetsDir = '~/.vim/snippets'
- 
+
 " TABでスニペットを展開
 imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_jump_or_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
@@ -121,7 +131,6 @@ set rtp+=~/.vim/vundle/
 "Bundle 'Shougo/vimshell.git'  
 "Bundle 'Shougo/unite.vim.git'  
 "Bundle 'Shougo/git-vim'  
-"Bundle 'Shougo/vimproc'  
 "Bundle 'tpope/vim-surround.git'  
 "Bundle 'thinca/vim-quickrun.git'  
 "Bundle 'mattn/zencoding-vim.git' 
@@ -166,7 +175,8 @@ let g:Tex_ViewRule_pdf = '/usr/bin/open -a Preview.app'
 
 
 " Ruby static code analyzer.
-" let g:syntastic_ruby_checkers = ['rubocop']
+let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': ['ruby']}
+let g:syntastic_ruby_checkers = ['rubocop']
 
 "----------------------------------------
 " zencoding
@@ -232,7 +242,7 @@ syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
 "let g:sass_compile_cssdir = ['css', 'stylesheet']
 "let g:sass_compile_file = ['scss', 'sass']
 "let g:sass_started_dirs = []
- 
+
 "autocmd FileType less,sass  setlocal sw=2 sts=2 ts=2 et
 "au! BufWritePost * SassCompile
 "}}}
@@ -260,23 +270,18 @@ au FileType php :set dict=~/.vim/dict/php.dict
 " コマンドを伴うやつの遅延読み込み
 "bundle"{{{
 " その他 {{{
-NeoBundle 'Shougo/vimproc', {
-      \ 'build' : {
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
-NeoBundleLazy 'taichouchou2/vim-endwise.git', {
-      \ 'autoload' : {
-      \   'insert' : 1,
-      \ } }
-" }}}
+" NeoBundle 'Shougo/vimproc', {
+"       \ 'build' : {
+"       \     'mac' : 'make -f make_mac.mak',
+"       \     'unix' : 'make -f make_unix.mak',
+"       \    },
+"       \ }
+" NeoBundleLazy 'taichouchou2/vim-endwise.git', {
+"       \ 'autoload' : {
+"       \   'insert' : 1,
+"       \ } }
+" " }}}
 
-" 補完 {{{
-"NeoBundleLazy 'Shougo/neocomplcache', {
-"      \ 'autoload' : {
-"      \   'insert' : 1,
-"      \ }}
 NeoBundleLazy 'Shougo/neosnippet', {
       \ 'autoload' : {
       \   'insert' : 1,
@@ -301,35 +306,33 @@ endif
 let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 
 
-NeoBundle 'Shougo/vimproc', {
-  \ 'build' : {
-  \     'mac' : 'make -f make_mac.mak',
-  \     'unix' : 'make -f make_unix.mak',
-  \    },
-  \ }
+" NeoBundle 'Shougo/vimproc', {
+"       \ 'build' : {
+"       \     'mac' : 'make -f make_mac.mak',
+"       \     'unix' : 'make -f make_unix.mak',
+"       \    },
+"       \ }
 NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
-  \ 'insert' : 1,
-  \ 'filetypes': 'ruby',
-  \ }}
+      \ 'insert' : 1,
+      \ 'filetypes': 'ruby',
+      \ }}
 
 " }}}
 
 " 便利 {{{
 " 範囲指定のコマンドが使えないので、tcommentのLazy化はNeoBundleのアップデートを待ちましょう...
-NeoBundle 'tomtom/tcomment_vim'
-NeoBundleLazy 'tpope/vim-surround', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     ['nx', '<Plug>Dsurround'], ['nx', '<Plug>Csurround'],
-      \     ['nx', '<Plug>Ysurround'], ['nx', '<Plug>YSurround'],
-      \     ['nx', '<Plug>Yssurround'], ['nx', '<Plug>YSsurround'],
-      \     ['nx', '<Plug>YSsurround'], ['vx', '<Plug>VgSurround'],
-      \     ['vx', '<Plug>VSurround']
-      \ ]}}
-" }}}
+" NeoBundleLazy 'tpope/vim-surround', {
+"       \ 'autoload' : {
+"       \   'mappings' : [
+"       \     ['nx', '<Plug>Dsurround'], ['nx', '<Plug>Csurround'],
+"       \     ['nx', '<Plug>Ysurround'], ['nx', '<Plug>YSurround'],
+"       \     ['nx', '<Plug>Yssurround'], ['nx', '<Plug>YSsurround'],
+"       \     ['nx', '<Plug>YSsurround'], ['vx', '<Plug>VgSurround'],
+"       \     ['vx', '<Plug>VSurround']
+"       \ ]}}
+" " }}}
 
 " ruby / railsサポート {{{
-NeoBundle 'tpope/vim-rails'
 NeoBundleLazy 'ujihisa/unite-rake', {
       \ 'depends' : 'Shougo/unite.vim' }
 NeoBundleLazy 'basyura/unite-rails', {
@@ -357,6 +360,40 @@ NeoBundleLazy 'basyura/unite-rails', {
 "       \ }
 
 
+"------------------------------------
+" vim-rails
+"------------------------------------
+""{{{
+"有効化
+let g:rails_default_file='config/database.yml'
+let g:rails_level = 4
+let g:rails_mappings=1
+let g:rails_modelines=0
+" let g:rails_some_option = 1
+" let g:rails_statusline = 1
+" let g:rails_subversion=0
+" let g:rails_syntax = 1
+" let g:rails_url='http://localhost:3000'
+" let g:rails_ctags_arguments='--languages=-javascript'
+" let g:rails_ctags_arguments = ''
+function! SetUpRailsSetting()
+  nnoremap <buffer><Space>r :R<CR>
+  nnoremap <buffer><Space>a :A<CR>
+  nnoremap <buffer><Space>m :Rmodel<Space>
+  nnoremap <buffer><Space>c :Rcontroller<Space>
+  nnoremap <buffer><Space>v :Rview<Space>
+  nnoremap <buffer><Space>p :Rpreview<CR>
+endfunction
+
+aug MyAutoCmd
+  au User Rails call SetUpRailsSetting()
+aug END
+
+aug RailsDictSetting
+  au!
+aug END
+"}}}
+
 " .や::を入力したときにオムニ補完が有効になるようにする
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
@@ -377,7 +414,7 @@ function! UniteRailsSetting()
   nnoremap <buffer><C-H><C-H><C-H>  :<C-U>Unite rails/view<CR>
   nnoremap <buffer><C-H><C-H>       :<C-U>Unite rails/model<CR>
   nnoremap <buffer><C-H>            :<C-U>Unite rails/controller<CR>
- 
+
   nnoremap <buffer><C-H>c           :<C-U>Unite rails/config<CR>
   nnoremap <buffer><C-H>s           :<C-U>Unite rails/spec<CR>
   nnoremap <buffer><C-H>m           :<C-U>Unite rails/db -input=migrate<CR>
@@ -404,14 +441,14 @@ aug END
 
 " reference環境
 NeoBundleLazy 'vim-ruby/vim-ruby', {
-    \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
+      \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
 NeoBundleLazy 'taka84u9/vim-ref-ri', {
       \ 'depends': ['Shougo/unite.vim', 'thinca/vim-ref'],
       \ 'autoload': { 'filetypes': ['ruby', 'eruby', 'haml'] } }
 NeoBundleLazy 'skwp/vim-rspec', {
       \ 'autoload': { 'filetypes': ['ruby', 'eruby', 'haml'] } }
 NeoBundleLazy 'ruby-matchit', {
-    \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
+      \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
 " }}}
 
 " }}}
@@ -431,11 +468,11 @@ let g:endwise_no_mappings=1
 "------------------------------------
 " 補完・履歴 neocomplcache "{{{
 set infercase
- 
+
 "----------------------------------------
 " neocomplcache
 let g:neocomplcache_enable_at_startup = 1
- 
+
 :set shiftwidth=2
 
 
