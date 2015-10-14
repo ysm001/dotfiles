@@ -22,7 +22,6 @@ if !filereadable(neobundle_readme)
   let g:not_finsh_neobundle = "yes"
 
   " Run shell script if exist on custom select language
-  
 endif
 
 if !filereadable(solarized_vim)
@@ -107,6 +106,12 @@ NeoBundle 'Flake8-vim'
 NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'hynek/vim-python-pep8-indent'
 
+NeoBundle 'Yggdroot/indentLine'
+
+NeoBundle 'amirh/HTML-AutoCloseTag'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'gorodinskiy/vim-coloresque'
+
 call neobundle#end()
 
 " Required:
@@ -128,12 +133,6 @@ set fileencodings=utf-8
 
 "" Fix backspace indent
 set backspace=indent,eol,start
-
-"" Tabs. May be overriten by autocmd rules
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
 
 "" Searching
 set hlsearch
@@ -308,3 +307,16 @@ endif
 
 let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
 "******************
+
+"******************
+" indentLine
+let g:indentLine_fileTypeExclude = ['help', 'nerdtree', 'calendar', 'thumbnail']
+"******************
+
+"*****************************************************************************
+" High Priority Basic Setup
+"*****************************************************************************"
+set tabstop=2
+set autoindent
+set expandtab
+set shiftwidth=2
