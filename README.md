@@ -51,8 +51,9 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
 source /path/to/your/virtualenvwrapper.sh
 
-brew install pyenv
+brew install pyenv-virtualenv
 echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(pyenv init -)";' >> ~/.zshrc
 
 pyenv install <version>
 pyenv global <version>
