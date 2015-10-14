@@ -40,7 +40,7 @@ ruby /usr/local/Cellar/rsense/0.3/libexec/etc/config.rb > ~/.rsense
 
 # python
 curl -kL https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python
-pip install virtualenv virtualenvwrapper
+pip install virtualenv
 pip install flake8 pyflakes pep8 pylint jedi
 
 cd ~/.vim/bundle/jedi-vim/jedi/
@@ -49,7 +49,6 @@ git submodule update --init
 # 下記の3行を.zshrcに追記
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
-source /path/to/your/virtualenvwrapper.sh
 
 brew install pyenv-virtualenv
 echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.zshrc
