@@ -317,7 +317,7 @@ let g:indentLine_fileTypeExclude = ['help', 'nerdtree', 'calendar', 'thumbnail']
 " Indent Width
 "*****************************************************************************"
 augroup indent
-  autocmd! FileType ruby,html,css setlocal shiftwidth=2 tabstop=2
+  autocmd! FileType ruby,html,css,javascript setlocal shiftwidth=2 tabstop=2
   autocmd! FileType python setlocal shiftwidth=4 tabstop=4
 augroup END
 
