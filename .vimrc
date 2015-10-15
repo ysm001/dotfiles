@@ -314,9 +314,14 @@ let g:indentLine_fileTypeExclude = ['help', 'nerdtree', 'calendar', 'thumbnail']
 "******************
 
 "*****************************************************************************
-" High Priority Basic Setup
+" Indent Width
 "*****************************************************************************"
-set tabstop=2
+augroup indent
+  autocmd! FileType ruby,html,css setlocal shiftwidth=2 tabstop=2
+  autocmd! FileType python setlocal shiftwidth=4 tabstop=4
+augroup END
+
 set autoindent
 set expandtab
-set shiftwidth=2
+
+

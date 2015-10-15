@@ -1,6 +1,7 @@
 # よく使う機能
 - </space>t: tagbar
 - </space>n: nerdtree
+- <c-e,>: htmタグ展開
 - TagsGenerate!: ctags生成
 
 # Setup
