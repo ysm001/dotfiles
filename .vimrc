@@ -1,569 +1,327 @@
-if has('gui_macvim')
-  set transparency=3
-  set guifont=Menlo:h12
-  set lines=90 columns=200
-  set guioptions-=T
-endif
-
-set nocompatible               " be iMproved
-filetype off
-
-
-let g:neobundle#types#git#default_protocol = 'ssh'
+"*****************************************************************************
+"" NeoBundle core
+"*****************************************************************************
 if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-  " call neobundle#rc(expand('~/.vim/bundle/'))
-  call neobundle#begin(expand('~/.vim/bundle/'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
+  set nocompatible               " Be iMproved
 
-  " originalrepos on github
-  NeoBundle 'Shougo/neobundle.vim'
-
-  NeoBundle 'Shougo/unite.vim'
-
-  NeoBundle 'Shougo/neocomplcache'
-  NeoBundle 'Shougo/neosnippet-snippets'
-  NeoBundle 'Shougo/neocomplete.vim'
-
-  NeoBundle 'marcus/rsense'
-  NeoBundle 'supermomonga/neocomplete-rsense.vim'
-
-  NeoBundle 'scrooloose/syntastic'
-  NeoBundle 'terryma/vim-multiple-cursors'
-
-  NeoBundle 'plasticboy/vim-markdown'
-  NeoBundle 'kannokanno/previm'
-
-  NeoBundle 'pangloss/vim-javascript'
-  NeoBundle 'mxw/vim-jsx'
-
-  NeoBundle 'mattn/emmet-vim'
-  " NeoBundle 'taichouchou2/surround.vim'
-  NeoBundle 'tpope/vim-surround'
-
-  NeoBundle 'open-browser.vim'
-  NeoBundle 'mattn/webapi-vim'
-  NeoBundle 'tell-k/vim-browsereload-mac'
-  NeoBundle 'hail2u/vim-css3-syntax'
-
-  NeoBundle 'ruby-matchit'
-  NeoBundle 'vim-scripts/dbext.vim'
-  " syntax + º´∆∞compile
-  NeoBundle 'kchmck/vim-coffee-script'
-  " js BDD•ƒ°º•Î
-  NeoBundle 'claco/jasmine.vim'
-  " indent§Œøº§µ§Àøß§Ú…’§±§Î
-  NeoBundle 'nathanaelkane/vim-indent-guides'
-
-  NeoBundle 'altercation/vim-colors-solarized'
-  " NeoBundle 'synboo/project.vim'
-
-  NeoBundle 'naberon/vim-cakehtml'
-  " ruby debugger
-  NeoBundle 'astashov/vim-ruby-debugger'
-  " slim
-  NeoBundle 'slim-template/vim-slim.git'
-
-  NeoBundle 'scrooloose/nerdtree'
-
-  NeoBundle 'alpaca-tc/alpaca_tags'
-  NeoBundle 'ngmy/vim-rubocop'
-  NeoBundle 'tpope/vim-endwise'
-
-  NeoBundle 'tpope/vim-rails'
-  NeoBundle 'tomtom/tcomment_vim'
-
-  NeoBundle 'Shougo/vimproc'  
-
-  NeoBundle 'thinca/vim-ref'
-
-  call neobundle#end()
+  " Required:
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-filetype plugin indent on     " required!
-filetype indent on
-syntax on
+let neobundle_readme=expand('~/.vim/bundle/neobundle.vim/README.md')
+let solarized_vim=expand('~/.vim/colors/solarized.vim')
 
-let g:SrcExpl_UpdateTags = 1
-let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
+let g:vim_bootstrap_langs = "javascript,ruby,python,html,go"
+let g:vim_bootstrap_editor = "vim"				" nvim or vim
 
-let g:tlist_actionscript_settings = 'actionscript;c:class;v:var;p:property;m:method;f:function;o:object;const:constants'
+if !filereadable(neobundle_readme)
+  echo "Installing NeoBundle..."
+  echo ""
+  silent !mkdir -p ~/.vim/bundle
+  silent !git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim/
+  let g:not_finsh_neobundle = "yes"
 
-"neocomplcache §ÚÕ≠∏˙§À§π§Î
-let g:neocomplcache_enable_at_startup = 1
-"neocomplcache §Œ smart case µ°«Ω§ÚÕ≠∏˙§À§π§Î
-let g:neocomplcache_enable_smart_case = 1
-"neocomplcache §Œ camel case µ°«Ω§ÚÕ≠∏˙§À§π§Î
-let g:neocomplcache_enable_camel_case_completion = 1
-"_∂Ë¿⁄§Í§Œ ‰¥∞§ÚÕ≠∏˙§À§π§Î
-let g:neocomplcache_enable_underbar_completion = 1
-"•∑•Û•ø•√•Ø•π§Ú•≠•„•√•∑•Â§π§Î§»§≠§Œ∫«æÆ ∏ª˙ƒπ§Ú¿ﬂƒÍ§π§Î
-let g:neocomplcache_min_syntax_length = 2
-
-au BufNewFile,BufRead *.ejs set filetype=html
-au BufNewFile,BufRead *.ry set filetype=racc
-
-autocmd BufNewFile,BufRead *.scala set filetype=scala
-"•Ê°º•∂ƒÍµ¡§Œº≠ΩÒ§ÚªÿƒÍ
-let g:neocomplcache_dictionary_filetype_lists = {
-      \ 'default' : '',
-      \ 'scala' : $HOME . '/.vim/dict/scala.dict',
-      \ }
-
-"set tags += "~/Programming/.ctags/scala_tags"
-"autocmd FileType scala :set tags+=~/.vim/tags/scala.tags
-
-let Tlist_Use_Right_Window = 1   
-
-" •π•À•⁄•√•»•’•°•§•Î§Œ«€√÷æÏΩÍ
-let g:NeoComplCache_SnippetsDir = '~/.vim/snippets'
-
-" TAB§«•π•À•⁄•√•»§Ú≈∏≥´
-imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_jump_or_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-
-smap <C-k> <Plug>(neosnippet_jump_or_expand)
-
-set rtp+=~/.vim/vundle/  
-"call vundle#rc()  
-
-
-"Bundle 'Shougo/neocomplcache.git'  
-"Bundle 'Shougo/vimshell.git'  
-"Bundle 'Shougo/unite.vim.git'  
-"Bundle 'Shougo/git-vim'  
-"Bundle 'tpope/vim-surround.git'  
-"Bundle 'thinca/vim-quickrun.git'  
-"Bundle 'mattn/zencoding-vim.git' 
-
-""
-"" Vim-LaTeX
-""
-filetype plugin on
-filetype indent on
-set shellslash
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor='latex'
-let g:Imap_UsePlaceHolders = 1
-let g:Imap_DeleteEmptyPlaceHolders = 1
-let g:Imap_StickyPlaceHolders = 0
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_FormatDependency_ps = 'dvi,ps'
-let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-"let g:Tex_FormatDependency_pdf = 'dvi,ps,pdf'
-"let g:Tex_FormatDependency_pdf = 'pdf'
-let g:Tex_CompileRule_dvi = '/usr/texbin/platex -synctex=1 -interaction=nonstopmode $*'
-"let g:Tex_CompileRule_dvi = '/usr/texbin/uplatex -synctex=1 -interaction=nonstopmode $*'
-let g:Tex_CompileRule_ps = '/usr/texbin/dvips -Ppdf -o $*.ps $*.dvi'
-let g:Tex_CompileRule_pdf = '/usr/texbin/dvipdfmx $*.dvi'
-"let g:Tex_CompileRule_pdf = '/usr/local/bin/ps2pdf $*.ps'
-"let g:Tex_CompileRule_pdf = '/usr/texbin/pdflatex -synctex=1 -interaction=nonstopmode $*'
-"let g:Tex_CompileRule_pdf = '/usr/texbin/lualatex -synctex=1 -interaction=nonstopmode $*'
-"let g:Tex_CompileRule_pdf = '/usr/texbin/xelatex -synctex=1 -interaction=nonstopmode $*'
-let g:Tex_BibtexFlavor = '/usr/texbin/pbibtex'
-"let g:Tex_BibtexFlavor = '/usr/texbin/upbibtex'
-let g:Tex_MakeIndexFlavor = '/usr/texbin/mendex $*.idx'
-let g:Tex_UseEditorSettingInDVIViewer = 1
-"let g:Tex_ViewRule_dvi = '/usr/texbin/pxdvi -watchfile 1'
-let g:Tex_ViewRule_dvi = '/usr/bin/open -a PictPrinter.app'
-"let g:Tex_ViewRule_dvi = '/usr/bin/open -a Skim.app'
-let g:Tex_ViewRule_ps = '/usr/local/bin/gv --watch'
-let g:Tex_ViewRule_pdf = '/usr/bin/open -a Preview.app'
-"let g:Tex_ViewRule_pdf = '/usr/bin/open -a Skim.app'
-"let g:Tex_ViewRule_pdf = '/usr/bin/open -a TeXShop.app'
-"let g:Tex_ViewRule_pdf = '/usr/bin/open -a TeXworks.app'
-"let g:Tex_ViewRule_pdf = '/usr/bin/open -a "Adobe Reader.app"'
-
-
-" Ruby static code analyzer.
-let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': ['ruby']}
-let g:syntastic_ruby_checkers = ['rubocop']
-
-"----------------------------------------
-" zencoding
-"----------------------------------------
-"{{{
-" coda§Œ•«•’•©•Î•»§»∞ÏΩÔ§À§π§Î
-imap <C-E> <C-Y>,
-let g:user_zen_leader_key = '<C-Y>'
-" ∏¿∏Ï Ã§À¬–±˛§µ§ª§Î
-let g:user_zen_settings = {
-      \  'lang' : 'ja',
-      \  'html' : {
-      \    'filters' : 'html',
-      \    'indentation' : ' '
-      \  },
-      \  'css' : {
-      \    'filters' : 'fc',
-      \  },
-      \}
-"}
-"
-"" •´°º•Ω•Î≤º§ŒURL§Ú•÷•È•¶•∂§«≥´§Ø
-nmap <Leader>o <Plug>(openbrowser-open)
-vmap <Leader>o <Plug>(openbrowser-open)
-" •∞•∞§Î
-nnoremap <Leader>g :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
-
-" •Í•Ì°º•…∏Â§ÀÃ·§√§∆§Ø§Î•¢•◊•Í  —ππ§∑§∆§Ø§¿§µ§§
-let g:returnApp = "MacVim"
-nmap <Space>bc :ChromeReloadStart<CR>
-nmap <Space>bC :ChromeReloadStop<CR>
-nmap <Space>bf :FirefoxReloadStart<CR>
-nmap <Space>bF :FirefoxReloadStop<CR>
-nmap <Space>bs :SafariReloadStart<CR>
-nmap <Space>bS :SafariReloadStop<CR>
-nmap <Space>bo :OperaReloadStart<CR>
-nmap <Space>bO :OperaReloadStop<CR>
-nmap <Space>ba :AllBrowserReloadStart<CR>
-nmap <Space>bA :AllBrowserReloadStop<CR>
-
-" HTML 5 tags
-syn keyword htmlTagName contained article aside audio bb canvas command
-syn keyword htmlTagName contained datalist details dialog embed figure
-syn keyword htmlTagName contained header hgroup keygen mark meter nav output
-syn keyword htmlTagName contained progress time ruby rt rp section time
-syn keyword htmlTagName contained source figcaption
-syn keyword htmlArg contained autofocus autocomplete placeholder min max
-syn keyword htmlArg contained contenteditable contextmenu draggable hidden
-syn keyword htmlArg contained itemprop list sandbox subject spellcheck
-syn keyword htmlArg contained novalidate seamless pattern formtarget
-syn keyword htmlArg contained formaction formenctype formmethod
-syn keyword htmlArg contained sizes scoped async reversed sandbox srcdoc
-syn keyword htmlArg contained hidden role
-syn match   htmlArg "\<\(aria-[\-a-zA-Z0-9_]\+\)=" contained
-syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
-
-"------------------------------------
-" sass
-"------------------------------------
-""{{{
-"let g:sass_compile_auto = 1
-"let g:sass_compile_cdloop = 5
-"let g:sass_compile_cssdir = ['css', 'stylesheet']
-"let g:sass_compile_file = ['scss', 'sass']
-"let g:sass_started_dirs = []
-
-"autocmd FileType less,sass  setlocal sw=2 sts=2 ts=2 et
-"au! BufWritePost * SassCompile
-"}}}
-
-set syntax=htmldjango
-
-:set encoding=utf-8
-:set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
-:set fileformats=unix,dos,mac
-
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_ViewRule_pdf = 'open -a Preview.app'
-let g:Tex_CompileRule_pdf = 'pdflatex -kanji=euc $*.tex'
-
-
-
-:set nocompatible
-:set whichwrap=b,s,h,l,<,>,[,],~
-
-autocmd FileType scala :set dictionary=scala.dict
-au FileType php :set dict=~/.vim/dict/php.dict
-
-
-" neobundle"{{{
-" •≥•ﬁ•Û•…§Ú»º§¶§‰§ƒ§Œ√Ÿ±‰∆…§ﬂπ˛§ﬂ
-"bundle"{{{
-" §Ω§Œ¬æ {{{
-" NeoBundle 'Shougo/vimproc', {
-"       \ 'build' : {
-"       \     'mac' : 'make -f make_mac.mak',
-"       \     'unix' : 'make -f make_unix.mak',
-"       \    },
-"       \ }
-" NeoBundleLazy 'taichouchou2/vim-endwise.git', {
-"       \ 'autoload' : {
-"       \   'insert' : 1,
-"       \ } }
-" " }}}
-
-NeoBundleLazy 'Shougo/neosnippet', {
-      \ 'autoload' : {
-      \   'insert' : 1,
-      \ }}
-
-
-" -------------------------------
-" Rsense
-" -------------------------------
-let g:rsenseHome = '/usr/local/bin/rsense'
-let g:rsenseUseOmniFunc = 1
-
-" --------------------------------
-" neocomplete.vim
-" --------------------------------
-let g:acp_enableAtStartup = 0
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
+  " Run shell script if exist on custom select language
 endif
-let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 
+if !filereadable(solarized_vim)
+  echo "Installing Solarized Theme..."
+  echo ""
 
-" NeoBundle 'Shougo/vimproc', {
-"       \ 'build' : {
-"       \     'mac' : 'make -f make_mac.mak',
-"       \     'unix' : 'make -f make_unix.mak',
-"       \    },
-"       \ }
-NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
-      \ 'insert' : 1,
-      \ 'filetypes': 'ruby',
-      \ }}
-
-" }}}
-
-"  ÿÕ¯ {{{
-" »œ∞œªÿƒÍ§Œ•≥•ﬁ•Û•…§¨ª»§®§ §§§Œ§«°¢tcomment§ŒLazy≤Ω§œNeoBundle§Œ•¢•√•◊•«°º•»§Ú¬‘§¡§ﬁ§∑§Á§¶...
-" NeoBundleLazy 'tpope/vim-surround', {
-"       \ 'autoload' : {
-"       \   'mappings' : [
-"       \     ['nx', '<Plug>Dsurround'], ['nx', '<Plug>Csurround'],
-"       \     ['nx', '<Plug>Ysurround'], ['nx', '<Plug>YSurround'],
-"       \     ['nx', '<Plug>Yssurround'], ['nx', '<Plug>YSsurround'],
-"       \     ['nx', '<Plug>YSsurround'], ['vx', '<Plug>VgSurround'],
-"       \     ['vx', '<Plug>VSurround']
-"       \ ]}}
-" " }}}
-
-" ruby / rails•µ•›°º•» {{{
-NeoBundleLazy 'ujihisa/unite-rake', {
-      \ 'depends' : 'Shougo/unite.vim' }
-NeoBundleLazy 'basyura/unite-rails', {
-      \ 'depends' : 'Shjkougo/unite.vim' }
-" NeoBundleLazy 'taichouchou2/unite-rails_best_practices', {
-"       \ 'depends' : 'Shougo/unite.vim',
-"       \ 'build' : {
-"       \    'mac': 'gem install rails_best_practices',
-"       \    'unix': 'gem install rails_best_practices',
-"       \   }
-"       \ }
-" NeoBundleLazy 'taichouchou2/unite-reek', {
-"       \ 'build' : {
-"       \    'mac': 'gem install reek',
-"       \    'unix': 'gem install reek',
-"       \ },
-"       \ 'autoload': { 'filetypes': ['ruby', 'eruby', 'haml'] },
-"       \ 'depends' : 'Shougo/unite.vim' }
-" NeoBundleLazy 'taichouchou2/alpaca_complete', {
-"       \ 'depends' : 'tpope/vim-rails',
-"       \ 'build' : {
-"       \    'mac':  'gem install alpaca_complete',
-"       \    'unix': 'gem install alpaca_complete',
-"       \   }
-"       \ }
-
-
-"------------------------------------
-" vim-rails
-"------------------------------------
-""{{{
-"Õ≠∏˙≤Ω
-let g:rails_default_file='config/database.yml'
-let g:rails_level = 4
-let g:rails_mappings=1
-let g:rails_modelines=0
-" let g:rails_some_option = 1
-" let g:rails_statusline = 1
-" let g:rails_subversion=0
-" let g:rails_syntax = 1
-" let g:rails_url='http://localhost:3000'
-" let g:rails_ctags_arguments='--languages=-javascript'
-" let g:rails_ctags_arguments = ''
-function! SetUpRailsSetting()
-  nnoremap <buffer><Space>r :R<CR>
-  nnoremap <buffer><Space>a :A<CR>
-  nnoremap <buffer><Space>m :Rmodel<Space>
-  nnoremap <buffer><Space>c :Rcontroller<Space>
-  nnoremap <buffer><Space>v :Rview<Space>
-  nnoremap <buffer><Space>p :Rpreview<CR>
-endfunction
-
-aug MyAutoCmd
-  au User Rails call SetUpRailsSetting()
-aug END
-
-aug RailsDictSetting
-  au!
-aug END
-"}}}
-
-" .§‰::§Ú∆˛Œœ§∑§ø§»§≠§À•™•‡•À ‰¥∞§¨Õ≠∏˙§À§ §Î§Ë§¶§À§π§Î
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
+  silent !mkdir -p ~/.vim/colors
+  silent !mkdir -p ~/.vim/tmp
+  silent !git clone https://github.com/altercation/vim-colors-solarized.git ~/.vim/tmp/solarized
+  !mv ~/.vim/tmp/solarized/colors/solarized.vim ~/.vim/colors/
 endif
-let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
-" ¥ƒ∂≠ —øÙRSENSE_HOME§À'/usr/local/bin/rsense'§ÚªÿƒÍ§∑§∆§‚∆∞§Ø
-let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
 
-let s:bundle_rails = 'unite-rails unite-rails_best_practices unite-rake alpaca_complete'
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
 
-
-"------------------------------------
-" Unite-rails.vim
-"------------------------------------
-"{{{
-function! UniteRailsSetting()
-  nnoremap <buffer><C-H><C-H><C-H>  :<C-U>Unite rails/view<CR>
-  nnoremap <buffer><C-H><C-H>       :<C-U>Unite rails/model<CR>
-  nnoremap <buffer><C-H>            :<C-U>Unite rails/controller<CR>
-
-  nnoremap <buffer><C-H>c           :<C-U>Unite rails/config<CR>
-  nnoremap <buffer><C-H>s           :<C-U>Unite rails/spec<CR>
-  nnoremap <buffer><C-H>m           :<C-U>Unite rails/db -input=migrate<CR>
-  nnoremap <buffer><C-H>l           :<C-U>Unite rails/lib<CR>
-  nnoremap <buffer><expr><C-H>g     ':e '.b:rails_root.'/Gemfile<CR>'
-  nnoremap <buffer><expr><C-H>r     ':e '.b:rails_root.'/config/routes.rb<CR>'
-  nnoremap <buffer><expr><C-H>se    ':e '.b:rails_root.'/db/seeds.rb<CR>'
-  nnoremap <buffer><C-H>ra          :<C-U>Unite rails/rake<CR>
-  nnoremap <buffer><C-H>h           :<C-U>Unite rails/heroku<CR>
+"*****************************************************************************
+""" Functions
+"*****************************************************************************
+function! s:meet_neocomplete_requirements()
+  return has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
 endfunction
-aug MyAutoCmd
-  au User Rails call UniteRailsSetting()
-aug END
 
+"*****************************************************************************
+"" VimProc DLL Path
+"*****************************************************************************
+if has('mac')
+  let g:vimproc_dll_path = $VIMRUNTIME . '/autoload/vimproc_mac.so'
+elseif has('win32')
+  let g:vimproc_dll_path = $HOME . '.vim/bundle/vimproc/autoload/vimproc_win32.dll'
+elseif has('win64')
+  let g:vimproc_dll_path = $HOME . '.vim/bundle/vimproc/autoload/vimproc_win64.dll'
+endif
 
-function! s:bundleLoadDepends(bundle_names) "{{{
-  " bundle§Œ∆…§ﬂπ˛§ﬂ
-  execute 'NeoBundleSource '.a:bundle_names
-  au! RailsLazyPlugins
-endfunction"}}}
-aug RailsLazyPlugins
-  au User Rails call <SID>bundleLoadDepends(s:bundle_rails)
-aug END
+"*****************************************************************************
+"" NeoBundle install packages
+"*****************************************************************************
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'scrooloose/nerdtree'
 
-" reference¥ƒ∂≠
-NeoBundleLazy 'vim-ruby/vim-ruby', {
-      \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
-NeoBundleLazy 'taka84u9/vim-ref-ri', {
-      \ 'depends': ['Shougo/unite.vim', 'thinca/vim-ref'],
-      \ 'autoload': { 'filetypes': ['ruby', 'eruby', 'haml'] } }
-NeoBundleLazy 'skwp/vim-rspec', {
-      \ 'autoload': { 'filetypes': ['ruby', 'eruby', 'haml'] } }
-NeoBundleLazy 'ruby-matchit', {
-      \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
-" }}}
+"" vimprock
+NeoBundle 'Shougo/vimproc.vim', {
+\ 'build' : {
+\     'windows' : 'tools\\update-dll-mingw',
+\     'cygwin' : 'make -f make_cygwin.mak',
+\     'mac' : 'make',
+\     'linux' : 'make',
+\     'unix' : 'gmake',
+\    },
+\ }
 
-" }}}
-"}}}
+"" Ë£úÂÆå
+if s:meet_neocomplete_requirements()
+  NeoBundle 'Shougo/neocomplete'
+	NeoBundle 'supermomonga/neocomplete-rsense.vim', {'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],}
+else
+	NeoBundle 'Shougo/neocomplcache'
+	NeoBundle 'Shougo/neocomplcache-rsense.vim', {'depends': ['Shougo/neocomplcache.vim', 'marcus/rsense'],}
+endif
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'honza/vim-snippets'
 
-"------------------------------------
-" endwise.vim
-"------------------------------------
-"{{{
-let g:endwise_no_mappings=1
-"}}}
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'szw/vim-tags'
 
-" NeoBundle 'taichouchou2/vim-rsense'
+NeoBundle 'tpope/vim-endwise'
 
-"------------------------------------
-" neocomplcache
-"------------------------------------
-"  ‰¥∞°¶Õ˙ŒÚ neocomplcache "{{{
-set infercase
+NeoBundle 'scrooloose/syntastic'
 
-"----------------------------------------
-" neocomplcache
-let g:neocomplcache_enable_at_startup = 1
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'kannokanno/previm'
+NeoBundle 'tyru/open-browser.vim'
 
-:set shiftwidth=2
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'mattn/emmet-vim'''
 
+NeoBundle 'Flake8-vim'
+NeoBundle 'davidhalter/jedi-vim'
+NeoBundle 'hynek/vim-python-pep8-indent'
 
-au BufRead,BufNewFile *.coffee            set filetype=coffee
-au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
+NeoBundle 'Yggdroot/indentLine'
 
+NeoBundle 'amirh/HTML-AutoCloseTag'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'gorodinskiy/vim-coloresque'
 
-" vim§Àcoffee•’•°•§•Î•ø•§•◊§Ú«ßº±§µ§ª§Î
-au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
-" •§•Û•«•Û•»§Ú¿ﬂƒÍ
-autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
+call neobundle#end()
 
-" taglist§Œ¿ﬂƒÍ coffee§Úƒ…≤√
-" let g:tlist_coffee_settings = 'coffee;f:function;v:variable'
+" Required:
+filetype plugin indent on
 
-" QuickRun§Œcoffee
-" let g:quickrun_config['coffee'] = {
-"      \'command' : 'coffee',
-"      \'exec' : ['%c -cbp %s']
-"      \}
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
 
-"------------------------------------
-" vim-coffee-script
-"------------------------------------
-"  ›¬∏ª˛§À•≥•Û•—•§•Î
-" autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
-autocmd BufWritePost *.coffee silent make!
+"*****************************************************************************
+"" Basic Setup
+"*****************************************************************************"
+let mapleader="\<Space>"
 
-"------------------------------------
-" jasmine.vim
-"------------------------------------
-" •’•°•§•Î•ø•§•◊§Ú —ππ
-function! JasmineSetting()
-  au BufRead,BufNewFile *Helper.js,*Spec.js  set filetype=jasmine.javascript
-  au BufRead,BufNewFile *Helper.coffee,*Spec.coffee  set filetype=jasmine.coffee
-  au BufRead,BufNewFile,BufReadPre *Helper.coffee,*Spec.coffee  let b:quickrun_config = {'type' : 'coffee'}
-  call jasmine#load_snippets()
-  map <buffer> <leader>m :JasmineRedGreen<CR>
-  command! JasmineRedGreen :call jasmine#redgreen()
-  command! JasmineMake :call jasmine#make()
-endfunction
-au BufRead,BufNewFile,BufReadPre *.coffee,*.js call JasmineSetting()
+"" Encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
 
-"------------------------------------
-" indent_guides
-"------------------------------------
-" •§•Û•«•Û•»§Œøº§µ§Àøß§Ú…’§±§Î
-let g:indent_guides_start_level=2
-let g:indent_guides_auto_colors=0
-let g:indent_guides_enable_on_vim_startup=0
-let g:indent_guides_color_change_percent=20
-let g:indent_guides_guide_size=1
-let g:indent_guides_space_guides=1
+"" Fix backspace indent
+set backspace=indent,eol,start
 
-hi IndentGuidesOdd  ctermbg=235
-hi IndentGuidesEven ctermbg=237
-au FileType coffee,ruby,javascript,python IndentGuidesEnable
-nmap <silent><Leader>ig <Plug>IndentGuidesToggle
+"" Searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
 
+"" Encoding
+set bomb
+set binary
+set ttyfast
+
+"" Directories for swp files
+set nobackup
+set noswapfile
+
+set fileformats=unix,dos,mac
+set showcmd
+set shell=/bin/sh
+
+set whichwrap=h,l,b,s,<,>,[,]
+
+"" ÊîπË°åÊôÇ„Å´Ëá™Âãï„Åß„Ç≥„É°„É≥„Éà„ÇíÊåøÂÖ•„Åô„Çã„ÅÆ„ÇíÈò≤„Åê
+autocmd FileType * setlocal formatoptions-=ro
+
+"*****************************************************************************
+"" Visual Settings
+"*****************************************************************************
 syntax enable
 set background=dark
-" colorscheme evening 
 colorscheme solarized
+set number
+set ruler
 
-"inoremap { {}<LEFT>
-"inoremap [ []<LEFT>
-"inoremap ( ()<LEFT>
-"inoremap " ""<LEFT>
-"inoremap ' ''<LEFT>
-"vnoremap { "zdi{<C-R>z}<ESC>
-"vnoremap [ "zdi[<C-R>z]<ESC>
-"vnoremap ( "zdi(<C-R>z)<ESC>
-"vnoremap " "zdi"<C-R>z"<ESC>
-"vnoremap ' "zdi'<C-R>z'<ESC>
+"*****************************************************************************
+"" Abbreviations
+"*****************************************************************************
+"" NERDTree
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+let g:NERDTreeWinSize = 20
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+nnoremap <silent> <leader>nf :NERDTreeFind<CR>
+noremap <leader>n :NERDTreeToggle<CR>
 
-let g:SrcExpl_UpdateTags = 1
+"*****************************************************************************
+""" Mappings
+"*****************************************************************************
+"" Copy/Paste/Cut
+set clipboard=unnamed,unnamedplus
 
-let g:neocomplcache_force_overwrite_completefunc = 1
+"******************
+"" neosnippet
+imap <c-k>     <Plug>(neosnippet_expand_or_jump)
+smap <c-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <c-k>     <Plug>(neosnippet_expand_target)
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)": pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)": "\<TAB>"
+if has('conceal')
+	set conceallevel=2 concealcursor=i
+endif
+"******************
 
-nnoremap <silent> co :ContinuousNumber <C-a><CR>
-vnoremap <silent> co :ContinuousNumber <C-a><CR>
-command! -count -nargs=1 ContinuousNumber let snf=&nf|set nf-=octal|let cl = col('.')|for nc in range(1, <count>?<count>-line('.'):1)|exe 'normal! j' . nc . <q-args>|call cursor('.', cl)|endfor|unlet cl|unlet snf
+"******************
+if s:meet_neocomplete_requirements()
+  "" neocomplete
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_ignore_case = 1
+  let g:neocomplete#enable_smart_case = 1
+  if !exists('g:neocomplete#keyword_patterns')
+	let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns._ = '\h\w*'
+else
+  "" neocomplcache
+  let g:neocomplcache_enable_at_startup = 1
+  let g:neocomplcache_enable_ignore_case = 1
+  let g:neocomplcache_enable_smart_case = 1
+  if !exists('g:neocomplcache_keyword_patterns')
+	let g:neocomplcache_keyword_patterns = {}
+  endif
+  let g:neocomplcache_keyword_patterns._ = '\h\w*'
+  let g:neocomplcache_enable_camel_case_completion = 1
+  let g:neocomplcache_enable_underbar_completion = 1
+endif
 
-:set tabstop=4
-:set autoindent
-:set expandtab
-:set shiftwidth=2
+" <TAB>: completion.                                         
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"   
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>" 
+"******************
 
-let g:vim_markdown_initial_foldlevel=1
+"******************
+" tagbar
+if ! empty(neobundle#get("tagbar"))
+  let g:tagbar_width = 20
+  nn <silent> <leader>t :TagbarToggle<CR>
+endif
+"******************
 
-augroup PrevimSettings
-  autocmd!
-  autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+"******************
+" ctags
+let g:vim_tags_project_tags_command = "/usr/local/Cellar/ctags/5.8_1/bin/ctags -f .tags -R . 2>/dev/null"
+let g:vim_tags_gems_tags_command = "/usr/local/Cellar/ctags/5.8_1/bin/ctags -R -f .Gemfile.lock.tags `bundle show --paths` 2>/dev/null"
+let g:vim_tags_auto_generate = 1
+set tags+=.tags
+set tags+=.Gemfile.lock.tags
+
+if has("path_extra")
+  set tags+=tags;
+endif
+
+nnoremap <C-]> g<C-]> 
+"******************
+
+"******************
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_mode_map = { 'mode': 'active' }
+let g:syntastic_ruby_checkers=['rubocop', 'mri']
+let g:syntastic_python_checkers = ['pyflakes', 'pep8']
+let g:syntastic_javascript_checkers=['eslint']
+let g:syntastic_coffee_checkers = ['coffeelint']
+let g:syntastic_scss_checkers = ['scss_lint']
+"******************
+
+"******************
+au BufRead,BufNewFile *.md set filetype=markdown
+"******************
+
+"******************
+let g:user_emmet_leader_key='<c-e>'
+let g:user_emmet_settings = {
+			\    'variables': {
+			\      'lang': "ja"
+			\    },
+			\   'indentation': '  '
+			\ }
+"******************
+
+"******************
+" rsense
+if !exists('g:neocomplete#force_omni_input_patterns')
+	let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
+"******************
+
+"******************
+" PyFlake
+let g:PyFlakeOnWrite = 1
+let g:PyFlakeCheckers = 'pep8,mccabe,pyflakes'
+let g:PyFlakeDefaultComplexity=10
+"******************
+
+"******************
+" jedi
+autocmd FileType python setlocal omnifunc=jedi#completions
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+	let g:neocomplete#force_omni_input_patterns = {}
+endif
+
+let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+"******************
+
+"******************
+" indentLine
+let g:indentLine_fileTypeExclude = ['help', 'nerdtree', 'calendar', 'thumbnail']
+"******************
+
+"*****************************************************************************
+" Indent Width
+"*****************************************************************************"
+augroup indent
+  autocmd! FileType ruby,html,css setlocal shiftwidth=2 tabstop=2
+  autocmd! FileType python setlocal shiftwidth=4 tabstop=4
 augroup END
+
+set autoindent
+set expandtab
+
+
