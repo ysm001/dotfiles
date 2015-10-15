@@ -65,7 +65,7 @@ endif
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'scrooloose/nerdtree'
 
-"" vimprock
+"" vimproc
 NeoBundle 'Shougo/vimproc.vim', {
 \ 'build' : {
 \     'windows' : 'tools\\update-dll-mingw',
@@ -84,33 +84,41 @@ else
 	NeoBundle 'Shougo/neocomplcache'
 	NeoBundle 'Shougo/neocomplcache-rsense.vim', {'depends': ['Shougo/neocomplcache.vim', 'marcus/rsense'],}
 endif
+
+"" スニペット
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'honza/vim-snippets'
 
+"" ctags
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'szw/vim-tags'
 
 NeoBundle 'tpope/vim-endwise'
 
+"" 構文チェック
 NeoBundle 'scrooloose/syntastic'
 
+"" markdownプレビュー
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
 
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'mattn/emmet-vim'''
-
+"" python構文・コーディング規約チェック
 NeoBundle 'Flake8-vim'
 NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'hynek/vim-python-pep8-indent'
 
+"" indent可視化
 NeoBundle 'Yggdroot/indentLine'
 
+"" HTML/CSS
 NeoBundle 'amirh/HTML-AutoCloseTag'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'gorodinskiy/vim-coloresque'
+NeoBundle 'mattn/emmet-vim'
+
+NeoBundle 'tpope/vim-surround'
 
 call neobundle#end()
 
@@ -316,12 +324,12 @@ let g:indentLine_fileTypeExclude = ['help', 'nerdtree', 'calendar', 'thumbnail']
 "*****************************************************************************
 " Indent Width
 "*****************************************************************************"
+set shiftwidth=2
+set tabstop=2
+
 augroup indent
-  autocmd! FileType ruby,html,css,javascript setlocal shiftwidth=2 tabstop=2
   autocmd! FileType python setlocal shiftwidth=4 tabstop=4
 augroup END
 
 set autoindent
 set expandtab
-
-
