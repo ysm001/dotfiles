@@ -120,6 +120,8 @@ NeoBundle 'mattn/emmet-vim'
 
 NeoBundle 'tpope/vim-surround'
 
+NeoBundle 'elzr/vim-json'
+
 call neobundle#end()
 
 " Required:
@@ -162,6 +164,9 @@ set showcmd
 set shell=/bin/sh
 
 set whichwrap=h,l,b,s,<,>,[,]
+
+"" JSONのダブルクォーテーションを表示する
+let g:vim_json_syntax_conceal = 0
 
 "" 改行時に自動でコメントを挿入するのを防ぐ
 autocmd FileType * setlocal formatoptions-=ro
