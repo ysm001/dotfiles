@@ -63,5 +63,7 @@ brew install nodebrew
 echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.zshrc
 nodebrew install-binary stable
 
+npm install -g bower, grunt-cli
+
 # npm install eslint
 ```

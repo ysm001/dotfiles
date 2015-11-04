@@ -120,6 +120,9 @@ NeoBundle 'mattn/emmet-vim'
 
 NeoBundle 'tpope/vim-surround'
 
+"" JSON syntax
+NeoBundle 'elzr/vim-json'
+
 call neobundle#end()
 
 " Required:
@@ -165,6 +168,8 @@ set whichwrap=h,l,b,s,<,>,[,]
 
 "" 改行時に自動でコメントを挿入するのを防ぐ
 autocmd FileType * setlocal formatoptions-=ro
+
+let g:vim_json_syntax_conceal=0
 
 "*****************************************************************************
 "" Visual Settings
