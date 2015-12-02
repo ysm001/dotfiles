@@ -120,6 +120,8 @@ NeoBundle 'mattn/emmet-vim'
 
 NeoBundle 'tpope/vim-surround'
 
+NeoBundle 'othree/yajs.vim'
+
 "" JSON syntax
 NeoBundle 'elzr/vim-json'
 
