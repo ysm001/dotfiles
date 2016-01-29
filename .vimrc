@@ -70,9 +70,9 @@ NeoBundle 'Shougo/vimproc.vim', {
 \ 'build' : {
 \     'windows' : 'tools\\update-dll-mingw',
 \     'cygwin' : 'make -f make_cygwin.mak',
-\     'mac' : 'make',
-\     'linux' : 'make',
-\     'unix' : 'gmake',
+\     'mac' : 'make -f make_mac.mak',
+\     'linux' : 'make -f make_mac.mak',
+\     'unix' : 'gmake -f make_mac.mak',
 \    },
 \ }
 
@@ -124,6 +124,9 @@ NeoBundle 'othree/yajs.vim'
 
 "" JSON syntax
 NeoBundle 'elzr/vim-json'
+
+NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'jason0x43/vim-js-indent'
 
 call neobundle#end()
 
@@ -284,7 +287,9 @@ let g:syntastic_scss_checkers = ['scss_lint']
 "******************
 
 "******************
-au BufRead,BufNewFile *.md set filetype=markdown
+" typescript
+au BufRead,BufNewFile,BufReadPre *.ts set filetype=typescript
+autocmd FileType typescript setlocal sw=2 sts=2 ts=2 et
 "******************
 
 "******************
@@ -324,6 +329,12 @@ if !exists('g:neocomplete#force_omni_input_patterns')
 endif
 
 let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+"******************
+
+"******************
+" typescript
+autocmd BufRead,BufNewFile *.ts set filetype=typescript
+let g:typescript_indent_disable = 1
 "******************
 
 "******************
