@@ -40,9 +40,9 @@ brew install rsense
 ruby /usr/local/Cellar/rsense/0.3/libexec/etc/config.rb > ~/.rsense
 
 # python
-curl -kL https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python
-pip install virtualenv
-pip install flake8 pyflakes pep8 pylint jedi
+curl -kL https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python
+sudo pip install virtualenv
+sudo pip install flake8 pyflakes pep8 pylint jedi
 
 cd ~/.vim/bundle/jedi-vim/jedi/
 git submodule update --init
@@ -59,7 +59,8 @@ pyenv install <version>
 pyenv global <version>
 
 # node
-brew install nodebrew
+# brew install nodebrew
+curl -L http://git.io/nodebrew  | perl - setup
 echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.zshrc
 nodebrew install-binary stable
 
