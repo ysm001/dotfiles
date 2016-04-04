@@ -81,4 +81,8 @@ cd /usr/local/Cellar/ricty/<version>/share/fonts/
 sudo cp Ricty*.ttf /Library/Fonts/
 fc-cache -vf
 # iterm2のPerformances > Profiles > TextからフォントをRictyに変更
+
+# vim+tabでエラー出る場合
+rm ~/.zcompdump*
+exec zsh
 ```
