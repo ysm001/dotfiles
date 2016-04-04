@@ -68,4 +68,17 @@ nodebrew use <version>
 npm install -g bower, grunt-cli
 
 # npm install eslint
+
+brew install automake
+brew install pkg-config
+
+brew tap sanemat/font
+brew install Caskroom/cask/xquartz
+brew install ricty
+
+# Ricty
+cd /usr/local/Cellar/ricty/<version>/share/fonts/
+sudo cp Ricty*.ttf /Library/Fonts/
+fc-cache -vf
+# iterm2のPerformances > Profiles > TextからフォントをRictyに変更
 ```
