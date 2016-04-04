@@ -67,7 +67,7 @@ nodebrew install-binary stable
 nodebrew use <version>
 npm install -g bower, grunt-cli
 
-# npm install eslint
+# npm install -g eslint
 
 brew install automake
 brew install pkg-config
