@@ -64,6 +64,7 @@ curl -L http://git.io/nodebrew  | perl - setup
 echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.zshrc
 nodebrew install-binary stable
 
+nodebrew use <version>
 npm install -g bower, grunt-cli
 
 # npm install eslint
