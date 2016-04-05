@@ -131,6 +131,9 @@ NeoBundle 'jason0x43/vim-js-indent'
 "" mustache / handlebars
 NeoBundle 'mustache/vim-mustache-handlebars'
 
+"" nodejs補完
+NeoBundle 'myhere/vim-nodejs-complete'
+
 call neobundle#end()
 
 " Required:
@@ -348,6 +351,15 @@ let g:indentLine_fileTypeExclude = ['help', 'nerdtree', 'calendar', 'thumbnail']
 "******************
 " mustache / handlebars
 let g:mustache_abbreviations = 1
+"******************
+
+"******************
+" vim-nodejs-complete
+:setl omnifunc=jscomplete#CompleteJS
+if !exists('g:neocomplcache_omni_functions')
+  let g:neocomplcache_omni_functions = {}
+endif
+let g:neocomplcache_omni_functions.javascript = 'nodejscomplete#CompleteJS'
 "******************
 
 "*****************************************************************************
