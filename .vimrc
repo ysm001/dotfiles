@@ -79,10 +79,10 @@ NeoBundle 'Shougo/vimproc.vim', {
 "" 補完
 if s:meet_neocomplete_requirements()
   NeoBundle 'Shougo/neocomplete'
-	NeoBundle 'supermomonga/neocomplete-rsense.vim', {'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],}
+	"" NeoBundle 'supermomonga/neocomplete-rsense.vim', {'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],}
 else
 	NeoBundle 'Shougo/neocomplcache'
-	NeoBundle 'Shougo/neocomplcache-rsense.vim', {'depends': ['Shougo/neocomplcache.vim', 'marcus/rsense'],}
+	"" NeoBundle 'Shougo/neocomplcache-rsense.vim', {'depends': ['Shougo/neocomplcache.vim', 'marcus/rsense'],}
 endif
 
 "" スニペット
@@ -127,6 +127,9 @@ NeoBundle 'elzr/vim-json'
 
 NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'jason0x43/vim-js-indent'
+
+"" mustache / handlebars
+NeoBundle 'mustache/vim-mustache-handlebars'
 
 call neobundle#end()
 
@@ -340,6 +343,11 @@ let g:typescript_indent_disable = 1
 "******************
 " indentLine
 let g:indentLine_fileTypeExclude = ['help', 'nerdtree', 'calendar', 'thumbnail']
+"******************
+
+"******************
+" mustache / handlebars
+let g:mustache_abbreviations = 1
 "******************
 
 "*****************************************************************************
