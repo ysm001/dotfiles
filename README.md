@@ -85,4 +85,13 @@ fc-cache -vf
 # vim+tabでエラー出る場合
 rm ~/.zcompdump*
 exec zsh
+
+brew install tmux
+install reattach-to-user-namespace
+
+# ctrl+kで画面クリアできるようにiterm2で下記を設定
+Preferences -> Keys -> + (add new global shortcut)
+Keyboard shortcut: ⌘+k
+Action: Send text
+value: clear\n
 ```
