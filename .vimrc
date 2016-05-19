@@ -98,6 +98,7 @@ NeoBundle 'tpope/vim-endwise'
 
 "" 構文チェック
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'pmsorhaindo/syntastic-local-eslint.vim'
 
 "" markdownプレビュー
 NeoBundle 'plasticboy/vim-markdown'
@@ -290,6 +291,12 @@ let g:syntastic_python_checkers = ['pyflakes', 'pep8']
 let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_coffee_checkers = ['coffeelint']
 let g:syntastic_scss_checkers = ['scss_lint']
+
+let g:syntastic_enable_signs = 1
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
 "******************
 
 "******************
