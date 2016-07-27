@@ -381,3 +381,26 @@ augroup END
 
 set autoindent
 set expandtab
+
+"*****************************************************************************
+" Large File
+"*****************************************************************************"
+set synmaxcol=256
+set nowrap
+
+" file is large from 10mb
+let g:LargeFile = 1024 * 100
+augroup LargeFile 
+  autocmd BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
+augroup END
+
+function LargeFile()
+  " no syntax highlighting etc
+  set eventignore+=FileType
+  " save memory when other file is viewed
+  setlocal bufhidden=unload
+  " display message
+  autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
+
+  syntax off
+endfunction
