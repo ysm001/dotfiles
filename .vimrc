@@ -135,6 +135,9 @@ NeoBundle 'mustache/vim-mustache-handlebars'
 "" nodejs補完
 NeoBundle 'myhere/vim-nodejs-complete'
 
+"" VCL
+NeoBundle 'smerrill/vcl-vim-plugin'
+
 call neobundle#end()
 
 " Required:
