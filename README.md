@@ -89,6 +89,9 @@ exec zsh
 brew install tmux
 install reattach-to-user-namespace
 
+# tmux plugin manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 # ctrl+kで画面クリアできるようにiterm2で下記を設定
 Preferences -> Keys -> + (add new global shortcut)
 Keyboard shortcut: ⌘+k
