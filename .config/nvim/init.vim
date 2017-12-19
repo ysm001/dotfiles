@@ -156,7 +156,7 @@ if dein#load_state(s:dein_dir)
   "" VCL
   call dein#add('smerrill/vcl-vim-plugin')
 
-  "" ファイル操作
+  "" ファイル検索
   call dein#add('Shougo/denite.nvim')
 
   "" yank履歴
@@ -165,7 +165,11 @@ if dein#load_state(s:dein_dir)
   "" バッファ履歴
   call dein#add('Shougo/neomru.vim')
 
+  "" ファイル内容の置換
   call dein#add('thinca/vim-qfreplace')
+
+  "" 巨大ファイル
+  call dein#add('vim-scripts/LargeFile')
   
   call dein#end()
   call dein#save_state()
@@ -429,26 +433,3 @@ augroup END
 
 set autoindent
 set expandtab
-
-"*****************************************************************************
-" Large File
-"*****************************************************************************"
-set synmaxcol=256
-set nowrap
-
-" file is large from 10mb
-let g:LargeFile = 1024 * 100
-augroup LargeFile 
-  autocmd BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
-augroup END
-
-function LargeFile()
-  " no syntax highlighting etc
-  set eventignore+=FileType
-  " save memory when other file is viewed
-  setlocal bufhidden=unload
-  " display message
-  autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
-endfunction
-
-au BufRead,BufNewFile *.vcl.handlebars set filetype=vcl
