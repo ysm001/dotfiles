@@ -269,6 +269,7 @@ endif
 "" terminal
 set sh=zsh
 tnoremap <silent> <ESC> <C-\><C-n>
+nnoremap @t :tabe<CR>:terminal<CR>
 "******************
 
 "******************
