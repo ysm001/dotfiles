@@ -18,6 +18,8 @@ brew install peco
 
 brew install git
 
+brew install ag
+
 # ctags
 brew install ctags
 echo alias ctags='/usr/local/Cellar/ctags/<version>/bin/ctags' >> ~/.zshrc

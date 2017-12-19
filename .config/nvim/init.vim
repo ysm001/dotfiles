@@ -1,45 +1,50 @@
-"*****************************************************************************
-"" NeoBundle core
-"*****************************************************************************
-if has('vim_starting')
-  set nocompatible               " Be iMproved
+" Requires
+" zsh, git, ag, pyenv, pyenv-virtualenv
 
-  " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+if !has('nvim') && v:version < 800
+  echoerr 'This settings requires NeoVIM or VIM version 8'
 endif
 
-let neobundle_readme=expand('~/.vim/bundle/neobundle.vim/README.md')
-let solarized_vim=expand('~/.vim/colors/solarized.vim')
+if !empty($PYENV_ROOT)
+  let pyenv_root = $PYENV_ROOT
+else
+  let pyenv_root = $HOME.'/.pyenv'
+endif
+
+" virtualenvのneovim3環境を利用
+let g:python3_host_prog = pyenv_root . '/versions/neovim3/bin/python'
+
+" virtualenvにneovim3環境が無い場合は新規作成
+if !filereadable(g:python3_host_prog)
+  if system('pyenv --version') == '' || system('pyenv virtualenvs --version') == ''
+    echoerr 'This settings requires pyenv-virtualenvs'
+  endif
+
+  let init_pyenv = 'eval "$(pyenv init -)" && eval "$(pyenv virtualenv-init -)"'
+  call system(init_pyenv . ' && pyenv install 3.5.1')
+  call system(init_pyenv . ' && pyenv virtualenv 3.5.1 neovim3 && pyenv activate neovim3 && pip install neovim')
+  echo 'Please run "UpdateRemotePlugins" to enable auto-completion'
+endif
+
+"*****************************************************************************
+"" Dein core
+"*****************************************************************************
+if &compatible
+  set nocompatible
+endif
+
+" Directory to install dein plugins
+let s:dein_dir = expand('~/.cache/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" If dein directory does not exist, run git clone
+if !isdirectory(s:dein_repo_dir)
+  execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+endif
+execute 'set runtimepath^=' . s:dein_repo_dir
 
 let g:vim_bootstrap_langs = "javascript,ruby,python,html,go"
-let g:vim_bootstrap_editor = "vim"				" nvim or vim
-
-if !filereadable(neobundle_readme)
-  echo "Installing NeoBundle..."
-  echo ""
-  silent !mkdir -p ~/.vim/bundle
-  silent !git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim/
-  let g:not_finsh_neobundle = "yes"
-
-  " Run shell script if exist on custom select language
-endif
-
-if !filereadable(solarized_vim)
-  echo "Installing Solarized Theme..."
-  echo ""
-
-  silent !mkdir -p ~/.vim/colors
-  silent !mkdir -p ~/.vim/tmp
-  silent !git clone https://github.com/altercation/vim-colors-solarized.git ~/.vim/tmp/solarized
-  !mv ~/.vim/tmp/solarized/colors/solarized.vim ~/.vim/colors/
-endif
-
-" Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+let g:vim_bootstrap_editor = "nvim"				" nvim or vim
 
 "*****************************************************************************
 """ Functions
@@ -47,6 +52,11 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 function! s:meet_neocomplete_requirements()
   return has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
 endfunction
+
+function! s:meet_deoplete_requirements()
+  return (has('nvim')  || has('timers')) && has('python3') "&& system('pip3 show neovim') !=# ''
+endfunction
+
 
 "*****************************************************************************
 "" VimProc DLL Path
@@ -60,92 +70,113 @@ elseif has('win64')
 endif
 
 "*****************************************************************************
-"" NeoBundle install packages
+"" Dein install packages
 "*****************************************************************************
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'scrooloose/nerdtree'
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
 
-"" vimproc
-NeoBundle 'Shougo/vimproc.vim', {
-\ 'build' : {
-\     'windows' : 'tools\\update-dll-mingw',
-\     'cygwin' : 'make -f make_cygwin.mak',
-\     'mac' : 'make -f make_mac.mak',
-\     'linux' : 'make -f make_mac.mak',
-\     'unix' : 'gmake -f make_mac.mak',
-\    },
-\ }
+  call dein#add('altercation/vim-colors-solarized')
+  call dein#source('altercation/vim-colors-solarized')
+  call dein#add('scrooloose/nerdtree')
+  
+  "" vimproc
+  call dein#add('Shougo/vimproc.vim', {
+  \ 'build' : {
+  \     'windows' : 'tools\\update-dll-mingw',
+  \     'cygwin' : 'make -f make_cygwin.mak',
+  \     'mac' : 'make -f make_mac.mak',
+  \     'linux' : 'make -f make_mac.mak',
+  \     'unix' : 'gmake -f make_mac.mak',
+  \    },
+  \ })
+  
+  "" 補完
+  if s:meet_deoplete_requirements()
+    call dein#add('Shougo/deoplete.nvim')
 
-"" 補完
-if s:meet_neocomplete_requirements()
-  NeoBundle 'Shougo/neocomplete'
-	"" NeoBundle 'supermomonga/neocomplete-rsense.vim', {'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],}
-else
-	NeoBundle 'Shougo/neocomplcache'
-	"" NeoBundle 'Shougo/neocomplcache-rsense.vim', {'depends': ['Shougo/neocomplcache.vim', 'marcus/rsense'],}
+    "" python補完
+    call dein#add('zchee/deoplete-jedi')
+
+    if !has('nvim')
+      call dein#add('roxma/nvim-yarp')
+      call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
+  elseif s:meet_neocomplete_requirements()
+    call dein#add('Shougo/neocomplete')
+    call dein#add('davidhalter/jedi-vim')
+  endif
+  
+  "" スニペット
+  call dein#add('Shougo/neosnippet')
+  call dein#add('Shougo/neosnippet-snippets')
+  call dein#add('honza/vim-snippets')
+  
+  "" ctags
+  call dein#add('majutsushi/tagbar')
+  call dein#add('szw/vim-tags')
+  
+  call dein#add('tpope/vim-endwise')
+  
+  "" 構文チェック
+  call dein#add('w0rp/ale')
+ 
+  "" markdownプレビュー
+  call dein#add('plasticboy/vim-markdown')
+  call dein#add('kannokanno/previm')
+  call dein#add('tyru/open-browser.vim')
+  
+  "" python構文・コーディング規約チェック
+  call dein#add('hynek/vim-python-pep8-indent')
+  
+  "" indent可視化
+  call dein#add('Yggdroot/indentLine')
+  
+  "" HTML/CSS
+  call dein#add('vim-scripts/HTML-AutoCloseTag')
+  call dein#add('hail2u/vim-css3-syntax')
+  call dein#add('gorodinskiy/vim-coloresque')
+  call dein#add('mattn/emmet-vim')
+  
+  call dein#add('tpope/vim-surround')
+  
+  call dein#add('othree/yajs.vim')
+  
+  "" JSON syntax
+  call dein#add('elzr/vim-json')
+  
+  call dein#add('leafgarland/typescript-vim')
+  call dein#add('jason0x43/vim-js-indent')
+  
+  "" mustache / handlebars
+  call dein#add('mustache/vim-mustache-handlebars')
+  
+  "" nodejs補完
+  call dein#add('myhere/vim-nodejs-complete')
+  
+  "" VCL
+  call dein#add('smerrill/vcl-vim-plugin')
+
+  "" ファイル操作
+  call dein#add('Shougo/denite.nvim')
+
+  "" yank履歴
+  call dein#add('Shougo/neoyank.vim')
+
+  "" バッファ履歴
+  call dein#add('Shougo/neomru.vim')
+
+  call dein#add('thinca/vim-qfreplace')
+  
+  call dein#end()
+  call dein#save_state()
 endif
 
-"" スニペット
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'honza/vim-snippets'
-
-"" ctags
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'szw/vim-tags'
-
-NeoBundle 'tpope/vim-endwise'
-
-"" 構文チェック
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'pmsorhaindo/syntastic-local-eslint.vim'
-
-"" markdownプレビュー
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'kannokanno/previm'
-NeoBundle 'tyru/open-browser.vim'
-
-"" python構文・コーディング規約チェック
-NeoBundle 'Flake8-vim'
-NeoBundle 'davidhalter/jedi-vim'
-NeoBundle 'hynek/vim-python-pep8-indent'
-
-"" indent可視化
-NeoBundle 'Yggdroot/indentLine'
-
-"" HTML/CSS
-NeoBundle 'amirh/HTML-AutoCloseTag'
-NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'gorodinskiy/vim-coloresque'
-NeoBundle 'mattn/emmet-vim'
-
-NeoBundle 'tpope/vim-surround'
-
-NeoBundle 'othree/yajs.vim'
-
-"" JSON syntax
-NeoBundle 'elzr/vim-json'
-
-NeoBundle 'leafgarland/typescript-vim'
-NeoBundle 'jason0x43/vim-js-indent'
-
-"" mustache / handlebars
-NeoBundle 'mustache/vim-mustache-handlebars'
-
-"" nodejs補完
-NeoBundle 'myhere/vim-nodejs-complete'
-
-"" VCL
-NeoBundle 'smerrill/vcl-vim-plugin'
-
-call neobundle#end()
+if dein#check_install()
+ call dein#install()
+endif
 
 " Required:
 filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
 
 "*****************************************************************************
 "" Basic Setup
@@ -231,8 +262,15 @@ if has('conceal')
 endif
 "******************
 
+"" terminal
+set sh=zsh
+tnoremap <silent> <ESC> <C-\><C-n>
 "******************
-if s:meet_neocomplete_requirements()
+
+"******************
+if s:meet_deoplete_requirements()
+  let g:deoplete#enable_at_startup = 1
+elseif s:meet_neocomplete_requirements()
   "" neocomplete
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#enable_ignore_case = 1
@@ -241,17 +279,6 @@ if s:meet_neocomplete_requirements()
 	let g:neocomplete#keyword_patterns = {}
   endif
   let g:neocomplete#keyword_patterns._ = '\h\w*'
-else
-  "" neocomplcache
-  let g:neocomplcache_enable_at_startup = 1
-  let g:neocomplcache_enable_ignore_case = 1
-  let g:neocomplcache_enable_smart_case = 1
-  if !exists('g:neocomplcache_keyword_patterns')
-	let g:neocomplcache_keyword_patterns = {}
-  endif
-  let g:neocomplcache_keyword_patterns._ = '\h\w*'
-  let g:neocomplcache_enable_camel_case_completion = 1
-  let g:neocomplcache_enable_underbar_completion = 1
 endif
 
 " <TAB>: completion.                                         
@@ -260,46 +287,21 @@ inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 "******************
 
 "******************
-" tagbar
-if ! empty(neobundle#get("tagbar"))
-  let g:tagbar_width = 20
-  nn <silent> <leader>t :TagbarToggle<CR>
-endif
-"******************
-
-"******************
 " ctags
-let g:vim_tags_project_tags_command = "/usr/local/Cellar/ctags/5.8_1/bin/ctags -f .tags -R . 2>/dev/null"
-let g:vim_tags_gems_tags_command = "/usr/local/Cellar/ctags/5.8_1/bin/ctags -R -f .Gemfile.lock.tags `bundle show --paths` 2>/dev/null"
+let g:vim_tags_project_tags_command = "/usr/local/bin/ctags -f .tags -R . 2>/dev/null"
 let g:vim_tags_auto_generate = 1
 set tags+=.tags
-set tags+=.Gemfile.lock.tags
 
-if has("path_extra")
+if has('path_extra')
   set tags+=tags;
 endif
 
 nnoremap <C-]> g<C-]> 
-"******************
 
-"******************
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_mode_map = { 'mode': 'active' }
-let g:syntastic_ruby_checkers=['rubocop', 'mri']
-let g:syntastic_python_checkers = ['pyflakes', 'pep8']
-let g:syntastic_javascript_checkers=['eslint']
-let g:syntastic_coffee_checkers = ['coffeelint']
-let g:syntastic_scss_checkers = ['scss_lint']
-
-let g:syntastic_enable_signs = 1
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+if dein#tap('tagbar')
+  let g:tagbar_width = 20
+  nn <silent> <leader>t :TagbarToggle<CR>
+endif
 "******************
 
 "******************
@@ -319,19 +321,58 @@ let g:user_emmet_settings = {
 "******************
 
 "******************
-" rsense
-if !exists('g:neocomplete#force_omni_input_patterns')
-	let g:neocomplete#force_omni_input_patterns = {}
+" Denite
+if system('ag --version') != ''
+  call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+  call denite#custom#var('grep', 'command', ['ag'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', [])
+  call denite#custom#var('grep', 'default_opts', ['--follow', '--no-group', '--no-color'])
 endif
-let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
+
+nnoremap <silent> <C-k><C-f> :<C-u>Denite file_rec<CR>
+nnoremap <silent> <C-k><C-g> :<C-u>Denite grep<CR>
+nnoremap <silent> <C-k><C-w> :<C-u>DeniteCursorWord grep<CR>
+nnoremap <silent> <C-k><C-l> :<C-u>Denite line<CR>
+nnoremap <silent> <C-k><C-u> :<C-u>Denite file_mru<CR>
+nnoremap <silent> <C-k><C-y> :<C-u>Denite neoyank<CR>
+nnoremap <silent> <C-k><C-r> :<C-u>Denite -resume<CR>
+
+" 複数ファイルの文字列置換
+" 1. <C-k><C-w>などでgrep検索
+" 2. <C-o>でノーマルモード移行
+" 3. <Space>や*で対象を洗濯
+" 4. <Tab>でアクション選択を行い、qfreplaceを起動
+if dein#tap('denite.nvim') && dein#tap('vim-qfreplace')
+  function! MyDeniteReplace(context)
+    let qflist = []
+    for target in a:context['targets']
+      if !has_key(target, 'action__path') | continue | endif
+      if !has_key(target, 'action__line') | continue | endif
+      if !has_key(target, 'action__text') | continue | endif
+
+      call add(qflist, {
+            \ 'filename': target['action__path'],
+            \ 'lnum': target['action__line'],
+            \ 'text': target['action__text']
+            \ })
+    endfor
+    call setqflist(qflist)
+    call qfreplace#start('')
+  endfunction
+  call denite#custom#action('file', 'qfreplace', function('MyDeniteReplace'))
+endif
 "******************
 
+
 "******************
-" PyFlake
-let g:PyFlakeOnWrite = 1
-let g:PyFlakeCheckers = 'pep8,mccabe,pyflakes'
-let g:PyFlakeDefaultComplexity=10
+" ALE
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+let g:ale_lint_on_enter = 0
+let g:ale_linters = {
+\   'python': ['flake8'],
+\}
 "******************
 
 "******************
@@ -345,6 +386,10 @@ if !exists('g:neocomplete#force_omni_input_patterns')
 endif
 
 let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+
+set completeopt-=preview
+
+let g:deoplete#sources#jedi#python_path = g:python3_host_prog
 "******************
 
 "******************
