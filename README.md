@@ -57,6 +57,8 @@ brew install pyenv-virtualenv
 echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.zshrc
 echo 'eval "$(pyenv init -)";' >> ~/.zshrc
 
+git clone git://github.com/yyuu/pyenv-update.git ~/.pyenv/plugins/pyenv-update
+
 pyenv install <version>
 pyenv global <version>
 
