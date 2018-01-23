@@ -93,7 +93,8 @@ rm ~/.zcompdump*
 exec zsh
 
 brew install tmux
-install reattach-to-user-namespace
+brew install reattach-to-user-namespace
+# Ctrl+t + I でplugin有効化
 
 # tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
